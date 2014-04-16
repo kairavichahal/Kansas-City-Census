@@ -1,0 +1,221 @@
+CODE
+###########################################################################################################################################################################################
+#Website and Dataset Manipulation: Drew Inglis
+
+###########################################################################################################################################################################################
+#Kairavi Chahal
+total2000 = ks.blkgrp$white + ks.blkgrp$black + ks.blkgrp$ameri.es + ks.blkgrp$asian
+total2010 = ks.blkgrp10$P0030002 + ks.blkgrp10$P0030003 + ks.blkgrp10$P0030004 + ks.blkgrp10$P0030005
+
+total2000[total2000==0] = 1
+total2010[total2010==0] = 1
+
+all.white = c(ks.blkgrp$white/total2000, ks.blkgrp10$P0030002/total2010)
+all.black = c(ks.blkgrp$black/total2000, ks.blkgrp10$P0030003/total2010)
+all.native = c(ks.blkgrp$ameri.es/total2000, ks.blkgrp10$P0030004/total2010)
+all.asian = c(ks.blkgrp$asian/total2000, ks.blkgrp10$P0030005/total2010)
+
+all = c(all.white, all.black, all.native, all.asian)
+
+breaks.all = quantile(all, probs=seq(0,1,by=0.1), names=F, na.rm=T)
+#create.legend(breaks)
+round(breaks.all, digits=2)
+
+col.white = color.grad(ks.blkgrp$white/total2000, breaks.all)
+col.black = color.grad(ks.blkgrp$black/total2000, breaks.all)
+col.native = color.grad(ks.blkgrp$ameri.es/total2000, breaks.all)
+col.asian = color.grad(ks.blkgrp$asian/total2000, breaks.all)
+
+col.white10 = color.grad(ks.blkgrp10$P0030002/total2010, breaks.all)
+col.black10 = color.grad(ks.blkgrp10$P0030003/total2010, breaks.all)
+col.native10 = color.grad(ks.blkgrp10$P0030004/total2010, breaks.all)
+col.asian10 = color.grad(ks.blkgrp10$P0030005/total2010, breaks.all)
+
+pdf("Population Distribution.pdf")
+par(mar=c(2,2,4,2))
+
+plotMap(ks.blkgrp, "Distribution of people identifying as 'White'\nin Kansas City (2000)", ks.blkgrp$white, col.white)
+create.legend(breaks.all)
+plotMap(ks.blkgrp, "Distribution of people identifying as 'White'\nin Kansas City (2010)", ks.blkgrp10$P0030002, col.white10)
+create.legend(breaks.all)
+
+plotMap(ks.blkgrp, "Distribution of people identifying as 'African American'\nin Kansas City (2000)", ks.blkgrp$black, col.black)
+create.legend(breaks.all)
+plotMap(ks.blkgrp, "Distribution of people identifying as 'African American'\nin Kansas City (2010)", ks.blkgrp10$P0030003, col.black10)
+create.legend(breaks.all)
+
+plotMap(ks.blkgrp, "Distribution of people identifying as 'American Indian'\nin Kansas City (2000)", ks.blkgrp$ameri.es, col.native)
+create.legend(breaks.all)
+plotMap(ks.blkgrp, "Distribution of people identifying as 'American Indian'\nin Kansas City (2010)", ks.blkgrp10$P0030004, col.native10)
+create.legend(breaks.all)
+
+plotMap(ks.blkgrp, "Distribution of people identifying as 'Asian'\nin Kansas City (2000)", ks.blkgrp$asian, col.asian)
+create.legend(breaks.all)
+plotMap(ks.blkgrp, "Distribution of people identifying as 'Asian'\nin Kansas City (2010)", ks.blkgrp10$P0030005, col.asian10)
+create.legend(breaks.all)
+
+dev.off()
+
+pdf("Population Distribution (zoomed).pdf")
+par(mar=c(2,2,4,2))
+
+zoomMap(ks.blkgrp, "Distribution of people identifying as 'White'\nin Kansas City (2000)", ks.blkgrp$white, col.white)
+create.legend(breaks.all)
+zoomMap(ks.blkgrp, "Distribution of people identifying as 'White'\nin Kansas City (2010)", ks.blkgrp10$P0030002, col.white10)
+create.legend(breaks.all)
+
+zoomMap(ks.blkgrp, "Distribution of people identifying as 'African American'\nin Kansas City (2000)", ks.blkgrp$black, col.black)
+create.legend(breaks.all)
+zoomMap(ks.blkgrp, "Distribution of people identifying as 'African American'\nin Kansas City (2010)", ks.blkgrp10$P0030003, col.black10)
+create.legend(breaks.all)
+
+zoomMap(ks.blkgrp, "Distribution of people identifying as 'American Indian'\nin Kansas City (2000)", ks.blkgrp$ameri.es, col.native)
+create.legend(breaks.all)
+zoomMap(ks.blkgrp, "Distribution of people identifying as 'American Indian'\nin Kansas City (2010)", ks.blkgrp10$P0030004, col.native10)
+create.legend(breaks.all)
+
+zoomMap(ks.blkgrp, "Distribution of people identifying as 'Asian'\nin Kansas City (2000)", ks.blkgrp$asian, col.asian)
+create.legend(breaks.all)
+zoomMap(ks.blkgrp, "Distribution of people identifying as 'Asian'\nin Kansas City (2010)", ks.blkgrp10$P0030005, col.asian10)
+create.legend(breaks.all)
+
+dev.off()
+
+###########################################################################################################################################################################################
+#Avery Calkins
+library(beanplot)
+
+beanplot(ks.blkgrp10$age.male,ks.blkgrp10$age.female,
+     	names=c("Male", "Female"),
+     	col=c(2,8,8,4))
+title(main="Distribution of Ages in Kansas City by Gender \n American Community Survey 2011 Data",
+  	xlab="gender", ylab="average age")
+
+beanplot(ks.blkgrp10$income.male,ks.blkgrp10$income.female,
+     	names=c("Male", "Female"),
+     	col=c("darkgreen",3,3,1))
+title(main="Distribution of Income in Kansas City by Gender \n American Community Survey 2011 Data",
+  	xlab="gender", ylab="average income (logarithmic)")
+
+###########################################################################################################################################################################################
+#Movses Musaelian
+#Barplot
+pop=rbind(pop,c(16653,8969,82092,184006,18979,24784,654880,451086,32960,68691,9570,28351,73781,23354,157882))
+pop=rbind(pop,c(17049,9424,99478,221939,20743,25992,674158,544179,33381,76227,9656,32787,89322,23494,157505))
+options(scipen=1000) 
+barplot(as.matrix(pop),col=c("darkblue","red"),legend.text=c("2000","2010"),beside=T,names=xnames,cex.names =.6,main="Population Change between 2000 and 2010 in Kansas Metropolitan Area")
+xnames=c("Bates","Caldwell","Cass","Clay","Clinton","Franklin","Jackson","Johnson","Lafayette","Leavenworth","Linn","Miami","Platte","Ray","Wyandotte")
+
+#Density Plots
+for(i in 1:length(ks.blkgrp10$P0030002)){
+  m = max(ks.blkgrp10$P0030002[i],ks.blkgrp10$P0030003[i],ks.blkgrp10$P0030004[i],ks.blkgrp10$P0030005[i])
+  if(m == ks.blkgrp10$P0030002[i]){
+    racev = rbind(racev,1)
+  }
+  if(m == ks.blkgrp10$P0030003[i]){
+    racev = rbind(racev,2)
+  }
+  if(m == ks.blkgrp10$P0030004[i]){
+    racev = rbind(racev,3)
+  }
+  if(m == ks.blkgrp10$P0030005[i]){
+    racev = rbind(racev,4)
+  }
+  m = NULL
+}
+
+#Income/Age Scatterplots
+for(i in 1:length(ks.blkgrp10$age.male)){
+  agea = rbind(agea, (ks.blkgrp10$age.male[i]+ks.blkgrp10$age.female[i])/2)
+}
+kk =  npreg(ordered(incm)~ordered(agea))
+k = gam(incm~agea)
+a = lm(incm~agea)
+               
+plot(agea,incm,xlab="Age",ylab="Wealth",main="Relationship between Average Age and Average Wealth")
+abline(a,lwd=2,col="red")
+points(fitted(k),col="blue",pch=19)
+points(fitted(kk),col="orange",pch=19)
+
+legend(62,120000,legend=c("Linear","Additive","Kernel"),pch=19,col=c("Red","Blue","Orange"))
+points(agea[racev!=1],incm[racev!=1],col="red",pch=19) 
+plot(agea[racev==1],incm[racev==1],col="blue",pch=19,xlab="Age",ylab="Wealth",main="Relationship between Average Age and Average Wealth in Whites/NonWhites") 
+whtw = mean(na.omit(incm[racev==1]))
+nwhtw = mean(na.omit(incm[racev!=1]))
+abline(h=whtw,lwd=3)
+abline(h=nwhtw,lwd=3, lty = 3)
+whta = mean(na.omit(agea[racev==1]))
+nwhta = mean(na.omit(agea[racev!=1]))
+abline(v=whta,lwd=3)
+abline(v=nwhta,lwd=3,lty = 3)
+
+legend(62,130000,legend=c("Whites","NonWhites"),pch=19,col=c("Blue","Red"))
+legend(15,130000,legend=c("Whites","NonWhites"),lty=c(1,3))
+
+###########################################################################################################################################################################################
+#Tony Yang
+income.all = c(ks.blkgrp10$income.male, ks.blkgrp10$income.female)
+pdf("incomemap.pdf")
+plot(ks.blkgrp10,col=color.grad(na.omit(income.all)))
+title("Distribution of Income in Kansas City 2010")
+legend("bottomright", extract.breaks(income.all), col=rev(topo.colors(length(hist(income.all, plot=F)$breaks)-1)), pch=15,pt.cex=1.5, y.intersp=0.85, cex=0.85,bg="white")
+dev.off()
+
+pdf("incomemapzoom.pdf")
+plot(ks.blkgrp10,xlim=c(-94.80258, -94.31755), ylim=c(38.81893,39.24914),col=color.grad(na.omit(income.all)))
+title("Distribution of Income in Kansas City 2010 [zoomed]")
+legend("topright", extract.breaks(income.all), col=rev(topo.colors(length(hist(income.all, plot=F)$breaks)-1)), pch=15,pt.cex=1.5, y.intersp=0.85, cex=0.85,bg="white")
+dev.off()
+
+
+###########################################################################################################################################################################################
+FUNCTIONS
+#Kairavi Chahal
+color.grad = function(data.vector, breaks)
+{
+	color.vector = rep(1, length(data.vector))
+	palette = heat.colors(length(breaks)-1)
+	palette = rev(palette)
+	for (i in 1:length(data.vector)) {
+		for (j in 1:((length(breaks)-1))) {
+			if (data.vector[i] >= breaks[j] & data.vector[i] <= breaks[(j+1)])
+				{color.vector[i] = palette[j]}
+		}
+	}
+	return (color.vector)
+}
+
+extract.breaks = function(breaks) {
+  names = rep("", length(breaks)-1)
+  for (i in 1:length(breaks-1)) {
+    names[i] = paste(breaks[i], breaks[i+1], sep=" to ")
+  }
+  return (names[1:(length(names)-1)])
+}
+
+create.legend = function(breaks){
+  palette = heat.colors(length(breaks)-1)
+  palette = rev(palette)
+  legend("bottomright", bg="white", title="Population", col=palette, extract.breaks(round(breaks, 4)), pch=15, pt.cex=1.5, y.intersp=0.85, cex=0.85)
+}
+plotMap = function(dataset, title, column, color) {
+  plot(dataset, 
+       xlim=c(-95.52876, -93.46062),
+       ylim=c(38.02297, 39.80301),
+       col=color,
+       yaxt="n", xaxt="n", border=F)
+  title(title)
+  segments(-94.80258, 38.81893, -94.31755, 38.81893,  col="black", lwd=2)
+  segments(-94.80258, 39.24914, -94.31755, 39.24914,  col="black", lwd=2)
+  segments(-94.80258, 38.81893, -94.80258, 39.24914,  col="black", lwd=2)
+  segments(-94.31755, 38.81893, -94.31755, 39.24914,  col="black", lwd=2)
+}
+
+zoomMap = function(dataset, title, column, color) {
+  plot(dataset, 
+       xlim=c(-94.80258, -94.31755),
+       ylim=c(38.81893, 39.24914),
+       col=color, border="black",
+       yaxt="n", xaxt="n")
+  title(title)
+}
